@@ -16,6 +16,7 @@ public class Team {
         this.league = league;
     }
 
+    // getters + setters
     public String getId() {
         return id;
     }

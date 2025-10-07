@@ -22,7 +22,7 @@ public class InMemoryRepo {
         teams.put(heat.getId(), heat);
         teams.put(knicks.getId(), knicks);
 
-        Game game1 = new Game("1", heat, knicks, 0, 0, LocalDateTime.now().plusMinutes(10));
+        Game game1 = new Game("1", heat, knicks, 0, 0, LocalDateTime.now().minusMinutes(1));
         games.put(game1.getId(), game1);
 
         Game game2 = new Game("2", heat, knicks, 108, 104, LocalDateTime.now().minusDays(1));

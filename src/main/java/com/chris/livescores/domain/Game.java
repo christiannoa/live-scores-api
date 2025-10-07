@@ -9,6 +9,7 @@ public class Game {
     private int homeScore;
     private int awayScore;
     private LocalDateTime gameTime;
+    private String status;
 
     public Game() {
     }
@@ -20,8 +21,10 @@ public class Game {
         this.homeScore = homeScore;
         this.awayScore = awayScore;
         this.gameTime = gameTime;
+        this.status = "SCHEDULED";
     }
 
+    // getters + setters
     public String getId() {
         return id;
     }
@@ -68,6 +71,14 @@ public class Game {
 
     public void setGameTime(LocalDateTime gameTime) {
         this.gameTime = gameTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }
