@@ -16,7 +16,7 @@ public class InMemoryRepo {
     private final Map<String, Game> games = new ConcurrentHashMap<>();
 
     public InMemoryRepo() {
-        // Initialize with some sample data
+        // Initialized with some sample data
         Team heat = new Team("t1", "Heat", "Miami", "NBA");
         Team knicks = new Team("t2", "Knicks", "New York", "NBA");
         teams.put(heat.getId(), heat);
@@ -48,5 +48,27 @@ public class InMemoryRepo {
                     .filter(game -> game.getGameTime().toLocalDate().equals(today))
                     .collect(Collectors.toList());
         }
+    }
+
+    public Game resetGame(String id) {
+        Game g = games.get(id);
+        if (g == null)
+            throw new NoSuchElementException("Game not found: " + id);
+        g.setHomeScore(0);
+        g.setAwayScore(0);
+        g.setStatus("SCHEDULED");
+        g.setGameTime(LocalDateTime.now().minusSeconds(5)); // next scheduler tick will mark LIVE
+        games.put(g.getId(), g);
+        return g;
+    }
+
+    /** Reset all games */
+    public void resetAllGames() {
+        games.values().forEach(g -> {
+            g.setHomeScore(0);
+            g.setAwayScore(0);
+            g.setStatus("SCHEDULED");
+            g.setGameTime(LocalDateTime.now().minusSeconds(5));
+        });
     }
 }

@@ -2,12 +2,13 @@ package com.chris.livescores.jobs;
 
 import com.chris.livescores.domain.Game;
 import com.chris.livescores.repo.InMemoryRepo;
+
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @Component
+@EnableScheduling
 public class ScoreUpdateJob {
     private final InMemoryRepo repo;
 
@@ -15,11 +16,12 @@ public class ScoreUpdateJob {
         this.repo = repo;
     }
 
-    @Scheduled(fixedRate = 10000) // runs every 10 seconds
+    @Scheduled(fixedRate = 5000) // runs every 5 seconds
     public void updateScores() {
         for (Game game : repo.getAllGames()) {
-            if (game.getGameTime().isBefore(LocalDateTime.now())
-                    && ("SCHEDULED".equals(game.getStatus()) || game.getStatus() == null)) {
+            if (game.getGameTime() != null
+                    && game.getGameTime().isBefore(java.time.LocalDateTime.now())
+                    && (game.getStatus() == null || "SCHEDULED".equals(game.getStatus()))) {
                 game.setStatus("LIVE"); // If game start time has passed → mark LIVE
             }
 
